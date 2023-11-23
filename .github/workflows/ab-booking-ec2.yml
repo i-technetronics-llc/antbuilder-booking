@@ -1,24 +1,24 @@
-name: Antbuilder Booking - EC2 Deploy
+name: Antbuilder Booking - EC2 CI-CD
 
 # Trigger deployment only on push to master branch
 on:
   push:
-    branches:
-      - master
+    branches: [ "main" ]
 
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
-
-      - name: Deploy to Antbuilder EC2 Instance
-        uses: easingthemes/ssh-deploy@master
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm test
+    - run: pm2 restart backendserver
