@@ -21,11 +21,11 @@ import { ApplicationEntity } from '@booking/entities/application.entity';
     ]),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '52.87.210.138',
+      host: 'antbuilder-booking-instance.ccr4zzz3u71t.us-east-1.rds.amazonaws.com',
       port: 5432,
       username: 'ant_booking',
       password: '1Maft3cn3tr0n1c.',
-      database: 'antbuilder-booking',
+      database: 'antbuilder_booking',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: 'all',
