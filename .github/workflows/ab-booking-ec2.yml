@@ -3,7 +3,7 @@ name: Antbuilder Booking - EC2 CI-CD
 # Trigger deployment only on push to master branch
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
