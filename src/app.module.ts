@@ -28,7 +28,13 @@ import { ApplicationEntity } from '@booking/entities/application.entity';
       database: 'antbuilder_booking',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
-      logging: 'all',
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false
+        }
+      }
+      //logging: 'all',
     }),
   ],
   controllers: [
