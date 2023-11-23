@@ -21,7 +21,7 @@ import { ApplicationEntity } from '@booking/entities/application.entity';
     ]),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: '52.87.210.138',
       port: 5432,
       username: 'ant_booking',
       password: '1Maft3cn3tr0n1c.',
