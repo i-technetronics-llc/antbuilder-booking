@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('Bookings')
-export class BookingEntity {
+export class BookingsEntity {
     @PrimaryGeneratedColumn('uuid', {
         name: 'Id',
         primaryKeyConstraintName: 'pk_booking_id'
@@ -125,6 +125,14 @@ export class BookingEntity {
     ProjectDescription: string;
 
     @Column({
+        name: 'IsDeprecated',
+        type: 'bool',
+        nullable: false,
+        default: false,
+    })
+    IsDeprecated: boolean;
+
+    @Column({
         name: 'TimeZone',
         type: 'varchar',
         nullable: true,
@@ -145,7 +153,7 @@ export class BookingEntity {
         name: 'CreatedDate',
         type: 'timestamptz',
         nullable: true,
-        default: null,
+        default: new Date(),
     })
     CreatedDate: string;
 }

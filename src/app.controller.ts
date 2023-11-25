@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { promises } from 'dns';
 
 @ApiTags('Application Manager')
 @Controller({
@@ -10,23 +11,52 @@ import { ApiTags } from '@nestjs/swagger';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @ApiOperation({
+    summary: 'Ping service availability'
+  })
   @Get('ping')
-  getPing(): string {
-    return this.appService.getStatus();
+  public async getPing(): Promise<any> {
+    return  {
+      status: HttpStatus.OK,
+      message: 'Service available!!!',
+      response: await this.appService.getStatus()
+    }
   }
 
-  @Get('')
-  getAppInfo(): Promise<any> {
-    return this.appService.getAppInfo();
+  @ApiOperation({
+    summary: 'Get service-application information'
+  })
+  @Get('info')
+  public async getAppInfo(): Promise<any> {
+    return {
+      status: HttpStatus.OK,
+      message: 'Service available!!!',
+      response: await this.appService.getAppInfo()
+    }
   }
 
+  @ApiOperation({
+    summary: 'Get service-application information by key'
+  })
   @Get(':key')
-  getAppInfoByKey(apiKey: string): Promise<any> {
-    return this.appService.getAppInfoByKey(apiKey);
+  public async getAppInfoByKey(apiKey: string): Promise<any> {
+    const response = await this.appService.getAppInfoByKey(apiKey);
+    return {
+      status: HttpStatus.OK,
+      message: 'Service available!!!',
+      response: response
+    }
   }
 
+  @ApiOperation({
+    summary: 'Get service-application information by id'
+  })
   @Get(':id')
-  getAppInfoById(id: string): Promise<any> {
-    return this.appService.getAppInfoByKey(id);
+  public async getAppInfoById(id: string): Promise<any> {
+    return {
+      status: HttpStatus.OK,
+      message: 'Service available!!!',
+      response: await this.appService.getAppInfoByKey(id)
+    }
   }
 }

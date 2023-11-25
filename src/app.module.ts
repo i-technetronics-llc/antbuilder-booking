@@ -6,26 +6,26 @@ import { BookingModule } from './booking/booking.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BlogModule } from './blog/blog.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BookingEntity } from '@booking/entities/booking.entity';
+import { BookingsEntity } from '@booking/entities/booking.entity';
 import { Console } from 'console';
-import { ApplicationEntity } from '@booking/entities/application.entity';
+import { ApplicationsEntity } from '@booking/entities/application.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     BookingModule,
-    BlogModule,
+    //BlogModule,
     TypeOrmModule.forFeature([
-     BookingEntity,
-     ApplicationEntity
+     BookingsEntity,
+     ApplicationsEntity
     ]),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'antbuilder-booking-instance.ccr4zzz3u71t.us-east-1.rds.amazonaws.com',
-      port: 5432,
-      username: 'ant_booking',
-      password: '1Maft3cn3tr0n1c.',
-      database: 'antbuilder_booking',
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
       ssl: true,

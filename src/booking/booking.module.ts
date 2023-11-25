@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { BookingService } from './booking.service';
-import { BookingController } from './booking.controller';
+import { BookingsService } from './booking.service';
+import { BookingsController } from './booking.controller';
+import { Repository } from 'typeorm';
+import { BookingsRepository } from './mapper/booking.mapping';
 
 @Module({
-  controllers: [BookingController],
-  providers: [BookingService],
+  imports: [],
+  controllers: [BookingsController],
+  providers: [BookingsService, BookingsRepository],
 })
 export class BookingModule {}

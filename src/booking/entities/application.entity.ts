@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('Applications')
-export class ApplicationEntity {
+export class ApplicationsEntity {
     @PrimaryGeneratedColumn('uuid', {
         name: 'Id',
         primaryKeyConstraintName: 'pk_application_id'

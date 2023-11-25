@@ -1,26 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
+import { BookingsEntity } from './entities/booking.entity';
+import { BookingResponseDto } from './dto/reponse/booking-response.dto';
+import { BookingsMapper, BookingsRepository } from './mapper/booking.mapping';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class BookingService {
-  create(createBookingDto: CreateBookingDto) {
-    return 'This action adds a new booking';
+export class BookingsService {
+
+  constructor(
+    private readonly bookingRepository: BookingsRepository
+  ) {}
+
+  async findAll(skip: number, take: number): Promise<BookingResponseDto> {
+    let [flattenBookingData, count] = await this.bookingRepository.createQueryBuilder('bookings')
+    .where('booking.IsDeprecated = :IsDeprecated', { IsDeprecated: false })
+    .skip(skip)
+    .take(take)
+    .getManyAndCount();
+
+    return BookingsMapper.toDtos(flattenBookingData);
   }
 
-  findAll() {
-    return `This action returns all booking`;
+  async findOne(id: string): Promise<BookingResponseDto> {
+    return BookingsMapper.toDto(await this.bookingRepository.findOne({
+      where:{ 
+        Id: id
+      }
+    }));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} booking`;
+  async createBooking(bookingDto: CreateBookingDto): Promise<BookingResponseDto>{
+    const flattenBookingData = BookingsMapper.toEntity(bookingDto);
+    const newBookingEntity = await this.bookingRepository.save(flattenBookingData);
+    const bookingResponse = BookingsMapper.toDto(newBookingEntity);
+    return bookingResponse;
   }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
+  async update(id: number, updateBookingDto: UpdateBookingDto) {
     return `This action updates a #${id} booking`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} booking`;
   }
 }

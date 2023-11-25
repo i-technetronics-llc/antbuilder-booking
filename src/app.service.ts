@@ -1,4 +1,4 @@
-import { ApplicationEntity } from '@booking/entities/application.entity';
+import { ApplicationsEntity } from '@booking/entities/application.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -6,20 +6,19 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class AppService {
   constructor(
-    @InjectRepository(ApplicationEntity)
-    private readonly appRepository: Repository<ApplicationEntity>
-  ) {
+    @InjectRepository(ApplicationsEntity)
+    private readonly appRepository: Repository<ApplicationsEntity>
+  ) { }
 
-  }
   getStatus(): string {
     return 'Pong!';
   }
 
-  getAppInfo(): Promise<any[]> {
+  async getAppInfo(): Promise<any[]> {
     return this.appRepository.find();
   }
 
-  getAppInfoByKey(apiKey: string): Promise<any> {
+  async getAppInfoByKey(apiKey: string): Promise<any> {
     return this.appRepository.findOne({
       where: {
         ApiPubKey: apiKey
@@ -27,7 +26,7 @@ export class AppService {
     });
   }
 
-  getAppInfoById(id: string): Promise<any> {
+  async getAppInfoById(id: string): Promise<any> {
     return this.appRepository.findOne({
       where: {
         ApiPubKey: id

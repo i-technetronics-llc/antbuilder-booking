@@ -5,7 +5,10 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Blog Manager')
-@Controller('blog')
+@Controller({
+  path: 'blog',
+  version: '1'
+})
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
