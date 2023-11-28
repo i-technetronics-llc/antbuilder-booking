@@ -49,11 +49,12 @@ export class BookingsMapper{
         return bookingResponseDto
     }
 
-    public static toDtos(bookingEntity: BookingsEntity[]): BookingResponseDto{
+    public static toDtos(bookingEntity: BookingsEntity[]): BookingResponseDto[] {
         const personDto = new PersonalDataDto();
         const companyDto = new CompanyDataDto();
         const projectDto = new ProjectDataDto();
         const bookingResponseDto = new BookingResponseDto();
+        let bookingResponsesCollection = [];
 
         bookingEntity.map((booking) => {
 
@@ -73,13 +74,14 @@ export class BookingsMapper{
             projectDto.projectBudget = booking.ProjectBudget;
             projectDto.projectTitle = booking.ProjectTitle;
 
+            bookingResponseDto.personalData = personDto;
+            bookingResponseDto.companyData = companyDto;
+            bookingResponseDto.projectData = projectDto;
+
+            bookingResponsesCollection.push(bookingResponseDto);
         })
 
-        bookingResponseDto.personalData = personDto;
-        bookingResponseDto.companyData = companyDto;
-        bookingResponseDto.projectData = projectDto;
-
-        return bookingResponseDto
+        return bookingResponsesCollection;
     }
 
     public static toDtoFlat(bookingEntity: BookingsEntity): BookingResponseFlatDto{

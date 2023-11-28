@@ -14,9 +14,9 @@ export class BookingsService {
     private readonly bookingRepository: BookingsRepository
   ) {}
 
-  async findAll(skip: number, take: number): Promise<BookingResponseDto> {
+  async findAll(skip: number, take: number): Promise<BookingResponseDto[]> {
     let [flattenBookingData, count] = await this.bookingRepository.createQueryBuilder('bookings')
-    .where('booking.IsDeprecated = :IsDeprecated', { IsDeprecated: false })
+    .where('bookings.IsDeprecated = :IsDeprecated', { IsDeprecated: false })
     .skip(skip)
     .take(take)
     .getManyAndCount();
@@ -25,11 +25,7 @@ export class BookingsService {
   }
 
   async findOne(id: string): Promise<BookingResponseDto> {
-    return BookingsMapper.toDto(await this.bookingRepository.findOne({
-      where:{ 
-        Id: id
-      }
-    }));
+    return BookingsMapper.toDto(await this.bookingRepository.findOneBy({ Id: id }));
   }
 
   async createBooking(bookingDto: CreateBookingDto): Promise<BookingResponseDto>{

@@ -52,6 +52,8 @@ export class AppModule {
   public static apiPrefixExt: string;
   public static apiVersionPrefix: string;
   public static swaggerAuthPassword: string;
+  public static sslCertKeyPath: string;
+  public static sslCertChainPath: string;
 
   constructor(private readonly configService: ConfigService) {
     AppModule.port = this.configService.get('HTTP_PORT');
@@ -60,5 +62,7 @@ export class AppModule {
     AppModule.apiPrefixExt = this.configService.get('API_PREFIX_EXT');
     AppModule.apiVersionPrefix = this.configService.get('API_VERSION_PREFIX');
     AppModule.swaggerAuthPassword = this.configService.get('SWAGGER_AUTH_PASSWORD');
+    AppModule.sslCertKeyPath = this.configService.get('SSL_CERT_KEY_PATH');
+    AppModule.sslCertChainPath = this.configService.get('SSL_CERT_CHAIN_PATH');
   }
 }

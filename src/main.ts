@@ -3,11 +3,23 @@ import { AppModule } from './app.module';
 import { Logger, VersioningType } from '@nestjs/common';
 import * as basicAuth from "express-basic-auth";
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as fs from 'fs';
+import * as path from 'path';
 
 async function bootstrap() {
 
+  console.log('-----  > ' + process.cwd() + '----current working directory');
+  console.log('-----  > ' + __dirname + '---directory');  
+
   const httpPort = AppModule.port;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions: {
+      key: await fs.readFileSync(path.join(process.cwd(), '\\src\\secrets\\privatekey.pem')),
+      cert:  await fs.readFileSync(path.join(process.cwd(), `\\src\\secrets\\fullchain.pem`))
+      // key: fs.readFileSync(process.cwd() + '\\src\\secrets\\privatekey.pem'),
+      // cert: fs.readFileSync(process.cwd() + '\\src\\secrets\\fullchain.pem')
+    }
+  });
   app.setGlobalPrefix(`${AppModule.apiPrefix}`);
   app.enableVersioning({
     type: VersioningType.URI,
