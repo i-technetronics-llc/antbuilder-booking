@@ -14,8 +14,8 @@ async function bootstrap() {
   const httpPort = AppModule.port;
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      key: await fs.readFileSync(path.join(process.cwd(), '\\src\\secrets\\privatekey.pem')),
-      cert:  await fs.readFileSync(path.join(process.cwd(), `\\src\\secrets\\fullchain.pem`))
+      key: await fs.readFileSync(path.join(process.cwd(), '/src/secrets/privatekey.pem')),
+      cert:  await fs.readFileSync(path.join(process.cwd(), `/src/secrets/fullchain.pem`))
       // key: fs.readFileSync(process.cwd() + '\\src\\secrets\\privatekey.pem'),
       // cert: fs.readFileSync(process.cwd() + '\\src\\secrets\\fullchain.pem')
     }
