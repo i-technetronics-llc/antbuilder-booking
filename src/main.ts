@@ -12,14 +12,15 @@ async function bootstrap() {
   console.log('-----  > ' + __dirname + '---directory');  
 
   const httpPort = AppModule.port;
-  const app = await NestFactory.create(AppModule, {
-    httpsOptions: {
-      key: await fs.readFileSync(path.join(process.cwd(), '/src/secrets/privatekey.pem')),
-      cert:  await fs.readFileSync(path.join(process.cwd(), `/src/secrets/fullchain.pem`))
-      // key: fs.readFileSync(process.cwd() + '\\src\\secrets\\privatekey.pem'),
-      // cert: fs.readFileSync(process.cwd() + '\\src\\secrets\\fullchain.pem')
-    }
-  });
+  const app = await NestFactory.create(AppModule, 
+    // {
+    // httpsOptions: {
+    //   key: await fs.readFileSync(path.join(process.cwd(), '/src/secrets/privatekey.pem')),
+    //   cert:  await fs.readFileSync(path.join(process.cwd(), `/src/secrets/fullchain.pem`))
+    //   // key: fs.readFileSync(process.cwd() + '\\src\\secrets\\privatekey.pem'),
+    //   // cert: fs.readFileSync(process.cwd() + '\\src\\secrets\\fullchain.pem')
+    // }}
+  );
   app.setGlobalPrefix(`${AppModule.apiPrefix}`);
   app.enableVersioning({
     type: VersioningType.URI,
