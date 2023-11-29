@@ -26,6 +26,8 @@ export class BookingsMapper{
         const projectDto = new ProjectDataDto();
         const bookingResponseDto = new BookingResponseDto();
 
+        bookingResponseDto.bookingId = bookingEntity.Id;
+
         personDto.firstName = bookingEntity.FirstName;
         personDto.lastName = bookingEntity.LastName;
         personDto.phone = bookingEntity.Phone;
@@ -74,6 +76,7 @@ export class BookingsMapper{
             projectDto.projectBudget = booking.ProjectBudget;
             projectDto.projectTitle = booking.ProjectTitle;
 
+            bookingResponseDto.bookingId = booking.Id;
             bookingResponseDto.personalData = personDto;
             bookingResponseDto.companyData = companyDto;
             bookingResponseDto.projectData = projectDto;

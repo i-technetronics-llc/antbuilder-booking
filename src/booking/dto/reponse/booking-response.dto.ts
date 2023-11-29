@@ -6,6 +6,9 @@ import { ProjectDataDto } from "../project-data.dto";
 export class BookingResponseDto{
 
     @ApiProperty()
+    bookingId: string;
+    
+    @ApiProperty()
     personalData: PersonalDataDto;
 
     @ApiProperty()
