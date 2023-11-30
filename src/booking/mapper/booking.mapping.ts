@@ -2,9 +2,10 @@ import { CompanyDataDto } from "@booking/dto/company-data.dto";
 import { CreateBookingDto } from "@booking/dto/create-booking.dto";
 import { PersonalDataDto } from "@booking/dto/personal-data.dto";
 import { ProjectDataDto } from "@booking/dto/project-data.dto";
-import { BookingResponseDto, BookingResponseFlatDto } from "@booking/dto/reponse/booking-response.dto";
+import { BookingResponseDto, BookingResponseFlatDto, BookingResponseWithRecordCountDto } from "@booking/dto/reponse/booking-response.dto";
 import { BookingsEntity } from "@booking/entities/booking.entity";
 import { Injectable } from "@nestjs/common";
+import { count } from "console";
 import { DataSource, Repository } from "typeorm";
 
 @Injectable()
@@ -51,44 +52,52 @@ export class BookingsMapper{
         return bookingResponseDto
     }
 
-    public static toDtos(bookingEntity: BookingsEntity[]): BookingResponseDto[] {
-        const personDto = new PersonalDataDto();
-        const companyDto = new CompanyDataDto();
-        const projectDto = new ProjectDataDto();
-        const bookingResponseDto = new BookingResponseDto();
-        let bookingResponsesCollection = [];
+    public static toDtos(bookingEntity: BookingsEntity[], recordCount: number = 0): BookingResponseWithRecordCountDto[] {
+        
+        let bookingResponsesCollection: BookingResponseWithRecordCountDto[] = [];
 
-        bookingEntity.map((booking) => {
+        const resp = bookingEntity.forEach((booking) => {
 
-            personDto.firstName = booking.FirstName;
-            personDto.lastName = booking.LastName;
-            personDto.phone = booking.Phone;
-            personDto.email = booking.Email;
+          const personDto = new PersonalDataDto();
+          const companyDto = new CompanyDataDto();
+          const projectDto = new ProjectDataDto();
+          const bookingResponseDto = new BookingResponseWithRecordCountDto();
 
-            companyDto.companyName = booking.CompanyName;
-            companyDto.countryName = booking.CountryName;
-            companyDto.employeeCount = booking.EmployeeCount;
-            companyDto.industry = booking.Industry;
-            companyDto.state = booking.State;
-            companyDto.websiteUrl = booking.WebsiteUrl;
+          personDto.firstName = booking.FirstName;
+          personDto.lastName = booking.LastName;
+          personDto.phone = booking.Phone;
+          personDto.email = booking.Email;
 
-            projectDto.projectDescription = booking.ProjectDescription;
-            projectDto.projectBudget = booking.ProjectBudget;
-            projectDto.projectTitle = booking.ProjectTitle;
+          companyDto.companyName = booking.CompanyName;
+          companyDto.countryName = booking.CountryName;
+          companyDto.employeeCount = booking.EmployeeCount;
+          companyDto.industry = booking.Industry;
+          companyDto.state = booking.State;
+          companyDto.websiteUrl = booking.WebsiteUrl;
 
-            bookingResponseDto.bookingId = booking.Id;
-            bookingResponseDto.personalData = personDto;
-            bookingResponseDto.companyData = companyDto;
-            bookingResponseDto.projectData = projectDto;
+          projectDto.projectDescription = booking.ProjectDescription;
+          projectDto.projectBudget = booking.ProjectBudget;
+          projectDto.projectTitle = booking.ProjectTitle;
 
-            bookingResponsesCollection.push(bookingResponseDto);
+          bookingResponseDto.bookingId = booking.Id;
+          bookingResponseDto.createdDate = booking.CreatedDate;
+          bookingResponseDto.totalRecords = recordCount;
+          bookingResponseDto.personalData = personDto;
+          bookingResponseDto.companyData = companyDto;
+          bookingResponseDto.projectData = projectDto;
+          
+          bookingResponsesCollection.push(bookingResponseDto);
+
         })
 
+        //bookingResponsesCollection.push(resp);
         return bookingResponsesCollection;
     }
 
     public static toDtoFlat(bookingEntity: BookingsEntity): BookingResponseFlatDto{
         const dto = new BookingResponseFlatDto();
+        dto.bookingId = bookingEntity.Id;
+        dto.createdDate = bookingEntity.CreatedDate;
         dto.firstName = bookingEntity.FirstName;
         dto.lastName = bookingEntity.LastName;
         dto.phone = bookingEntity.Phone;

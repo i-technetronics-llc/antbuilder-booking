@@ -9,6 +9,31 @@ export class BookingResponseDto{
     bookingId: string;
     
     @ApiProperty()
+    createdDate: Date;
+
+    @ApiProperty()
+    personalData: PersonalDataDto;
+
+    @ApiProperty()
+    companyData: CompanyDataDto;
+
+    @ApiProperty()
+    projectData: ProjectDataDto;
+
+}
+
+export class BookingResponseWithRecordCountDto{
+
+    @ApiProperty()
+    bookingId: string;
+    
+    @ApiProperty()
+    createdDate: Date;
+
+    @ApiProperty()
+    totalRecords: number;
+
+    @ApiProperty()
     personalData: PersonalDataDto;
 
     @ApiProperty()
@@ -20,6 +45,12 @@ export class BookingResponseDto{
 }
 
 export class BookingResponseFlatDto{
+
+    @ApiProperty()
+    bookingId: string;
+    
+    @ApiProperty()
+    createdDate: Date;
 
     @ApiProperty()    
     companyName: string;

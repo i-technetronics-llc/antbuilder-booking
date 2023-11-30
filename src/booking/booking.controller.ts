@@ -28,8 +28,8 @@ export class BookingsController {
   @ApiOperation({
     summary: 'Get all booking records'
   })
-  @Get()
-  async findAll(skip: number, take: number): Promise<any> {
+  @Get(':skip/:take')
+  async findAll(@Param('skip') skip: number, @Param('take') take: number): Promise<any> {
     return {
       status: HttpStatus.FOUND,
       message: 'Service available!!!',

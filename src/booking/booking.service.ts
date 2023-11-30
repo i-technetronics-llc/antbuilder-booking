@@ -21,7 +21,7 @@ export class BookingsService {
     .take(take)
     .getManyAndCount();
 
-    return BookingsMapper.toDtos(flattenBookingData);
+    return BookingsMapper.toDtos(flattenBookingData, count);
   }
 
   async findOne(id: string): Promise<BookingResponseDto> {

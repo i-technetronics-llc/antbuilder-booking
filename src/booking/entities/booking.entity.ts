@@ -155,5 +155,5 @@ export class BookingsEntity {
         nullable: true,
         default: new Date(),
     })
-    CreatedDate: string;
+    CreatedDate: Date;
 }
